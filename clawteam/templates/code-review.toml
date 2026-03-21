@@ -3,6 +3,7 @@ name = "code-review"
 description = "Multi-perspective code review team for thorough PR analysis"
 command = ["openclaw"]
 backend = "tmux"
+model_strategy = "auto"
 
 [template.leader]
 name = "lead-reviewer"

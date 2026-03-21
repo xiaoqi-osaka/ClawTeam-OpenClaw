@@ -3,6 +3,7 @@ name = "hedge-fund"
 description = "AI Hedge Fund - multi-agent investment analysis team"
 command = ["openclaw"]
 backend = "tmux"
+model_strategy = "auto"
 
 [template.leader]
 name = "portfolio-manager"
