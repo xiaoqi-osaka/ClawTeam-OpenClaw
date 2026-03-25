@@ -75,6 +75,7 @@ class TeamConfig(BaseModel):
     name: str
     description: str = ""
     lead_agent_id: str = Field(default="", alias="leadAgentId")
+    shared_logic: str = Field(default="", alias="sharedLogic")
     created_at: str = Field(default_factory=_now_iso, alias="createdAt")
     members: list[TeamMember] = Field(default_factory=list)
     budget_cents: float = Field(default=0.0, alias="budgetCents")

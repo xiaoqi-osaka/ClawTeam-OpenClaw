@@ -39,6 +39,7 @@ class TemplateDef(BaseModel):
     description: str = ""
     command: list[str] = ["openclaw"]
     backend: str = "tmux"
+    shared_logic: str = ""
     leader: AgentDef
     agents: list[AgentDef] = []
     tasks: list[TaskDef] = []
@@ -94,6 +95,7 @@ def _parse_toml(path: Path) -> TemplateDef:
         description=tmpl.get("description", ""),
         command=tmpl.get("command", ["openclaw"]),
         backend=tmpl.get("backend", "tmux"),
+        shared_logic=tmpl.get("shared_logic", ""),
         leader=leader,
         agents=agents,
         tasks=tasks,

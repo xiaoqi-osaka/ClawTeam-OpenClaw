@@ -18,6 +18,7 @@ def build_agent_prompt(
     workspace_dir: str = "",
     workspace_branch: str = "",
     memory_scope: str = "",
+    shared_logic: str = "",
 ) -> str:
     """Build agent prompt: identity + task + optional workspace info."""
     lines = [
@@ -39,6 +40,12 @@ def build_agent_prompt(
             f"- Working directory: {workspace_dir}",
             f"- Branch: {workspace_branch}",
             "- This is an isolated git worktree. Your changes do not affect the main branch.",
+        ])
+    if shared_logic:
+        lines.extend([
+            "",
+            "## Shared Team Logic",
+            shared_logic,
         ])
     if memory_scope:
         lines.extend([

@@ -74,6 +74,7 @@ class TeamManager:
         leader_id: str,
         description: str = "",
         user: str = "",
+        shared_logic: str = "",
     ) -> TeamConfig:
         if _config_path(name).exists():
             raise ValueError(f"Team '{name}' already exists")
@@ -88,6 +89,7 @@ class TeamManager:
             name=name,
             description=description,
             lead_agent_id=leader_id,
+            shared_logic=shared_logic,
             members=[leader],
         )
         _save_config(config)

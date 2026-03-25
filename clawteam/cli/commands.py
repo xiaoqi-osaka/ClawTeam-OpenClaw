@@ -244,6 +244,7 @@ def team_spawn_team(
     description: str = typer.Option("", "--description", "-d", help="Team description"),
     agent_name: str = typer.Option("leader", "--agent-name", "-n", help="Leader agent name"),
     agent_type: str = typer.Option("leader", "--agent-type", help="Leader agent type"),
+    shared_logic: str = typer.Option("", "--shared-logic", help="Shared logic/rules for all team members"),
 ):
     """Create a new team and register the leader (spawnTeam)."""
     from clawteam.identity import AgentIdentity
@@ -260,6 +261,7 @@ def team_spawn_team(
             leader_id=leader_id,
             description=description,
             user=identity.user,
+            shared_logic=shared_logic,
         )
         result = {
             "status": "created",
@@ -1722,6 +1724,9 @@ def spawn_agent(
         from clawteam.spawn.prompt import build_agent_prompt
         from clawteam.team.manager import TeamManager
 
+        team_cfg = TeamManager.get_team(_team)
+        shared_logic = team_cfg.shared_logic if team_cfg else ""
+
         leader_name = TeamManager.get_leader_name(_team) or "leader"
         prompt = build_agent_prompt(
             agent_name=_name,
@@ -1734,6 +1739,7 @@ def spawn_agent(
             workspace_dir=cwd or "",
             workspace_branch=ws_branch,
             memory_scope=f"custom:team-{_team}",
+            shared_logic=shared_logic,
         )
 
     # Session resume: inject --resume flag for claude commands
@@ -2227,6 +2233,7 @@ def launch_team(
             leader_id=leader_id,
             description=tmpl.description,
             user=_os.environ.get("CLAWTEAM_USER", ""),
+            shared_logic=tmpl.shared_logic,
         )
     except ValueError as e:
         console.print(f"[red]Error: {e}[/red]")
@@ -2308,6 +2315,7 @@ def launch_team(
             workspace_dir=cwd or "",
             workspace_branch=ws_branch,
             memory_scope=f"custom:team-{t_name}",
+            shared_logic=tmpl.shared_logic,
         )
 
         # Resolve skip_permissions from config
